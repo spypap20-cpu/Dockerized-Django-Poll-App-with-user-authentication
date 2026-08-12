@@ -125,3 +125,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "productionfiles"
+
+
+
+LOGIN_REDIRECT_URL = 'polls:index'
+
+LOGOUT_REDIRECT_URL = 'polls:index'
+
+LOGIN_URL = 'login'
