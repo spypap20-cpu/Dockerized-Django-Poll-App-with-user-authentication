@@ -5,6 +5,9 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
 from .models import Choice, Question
 
 
@@ -60,3 +63,18 @@ def vote(request, question_id):
         # user hits the Back button.
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
+def register_user(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request,user)
+            return redirect ('polls:index')
+    else:
+        form =UserCreationForm()        
+    return render(request, 'registration/register_user.html', {
+        'form':form,
+    })
