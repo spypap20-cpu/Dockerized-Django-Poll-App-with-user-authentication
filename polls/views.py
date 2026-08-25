@@ -1,14 +1,14 @@
 from django.db.models import F
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from django.shortcuts import redirect
 from .models import Choice, Question
+from .forms import QuestionForm, ChoiceFormSet
 
 
 class IndexView(generic.ListView):
@@ -77,4 +77,28 @@ def register_user(request):
         form =UserCreationForm()        
     return render(request, 'registration/register_user.html', {
         'form':form,
+    })
+
+@login_required
+def create_poll(request): 
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        formset = ChoiceFormSet(request.POST)
+            
+        if form.is_valid() and formset.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+             
+            formset.instance = question
+            formset.save()
+              
+            return redirect('polls:index')
+    else:
+        form = QuestionForm()
+        formset = ChoiceFormSet()
+        
+    return render(request, 'polls/create_poll.html', {
+        'form': form,
+        'formset': formset
     })

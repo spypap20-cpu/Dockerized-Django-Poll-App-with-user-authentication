@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Create a Poll</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    {{ form.as_div }}
+
+    {{ formset.management_form }}
+
+    {% for choice_form in formset %}
+        {{ choice_form.as_div }}
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a href="{% url 'polls:index' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+{% endblock %}
