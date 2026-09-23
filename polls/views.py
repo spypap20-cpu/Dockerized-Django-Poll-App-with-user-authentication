@@ -83,14 +83,14 @@ def register_user(request):
 def create_poll(request): 
     if request.method == "POST":
         form = QuestionForm(request.POST)
-        formset = ChoiceFormSet(request.POST)
             
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid():
             question = form.save(commit=False)
             question.author = request.user
             question.save()
              
-            formset.instance = question
+        formset = ChoiceFormSet(request.POST, instance=question)
+        if formset.is_valid():
             formset.save()
               
             return redirect('polls:index')

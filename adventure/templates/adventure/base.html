@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{% block title %}Adventure{% endblock %}</title>
+
+<link rel="stylesheet" href="{% static 'adventure/style.css' %}">
+
+</head>
+
+<body>
+
+<nav>
+<a href="{% url 'adventure:index' %}">Home</a>
+
+
+</nav>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "adventure/base.html" %}
+
+{% block content %}
+
+
+<h1>{{ story.story_text }}</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% for choice in story.choice_set.all %}
+    <a href="{% url 'adventure:detail' choice.next_scene.id %}"style="font-size: 20px; font-weight: bold;">
+   
+        {{ choice.choice_text }}
+       
+
+    </a><br>    
+   
+
+{% endfor %}
+
+
+{% endblock %}

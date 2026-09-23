@@ -1,0 +1,16 @@
+{% extends "adventure/base.html" %}
+
+{% block content %}
+
+{% if latest_story_list %}
+<ul>
+{% for story in latest_story_list %}
+<li><a href="{% url 'adventure:detail' story.id %}"style="font-size: 20px; font-weight: bold;">{{ story.title }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No stories are available.</p>
+{% endif %}
+
+{% endblock %}
+
