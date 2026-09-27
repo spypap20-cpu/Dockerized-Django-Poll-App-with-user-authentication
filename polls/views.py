@@ -89,11 +89,13 @@ def create_poll(request):
             question.author = request.user
             question.save()
              
-        formset = ChoiceFormSet(request.POST, instance=question)
-        if formset.is_valid():
-            formset.save()
+            formset = ChoiceFormSet(request.POST, instance=question)
+            if formset.is_valid():
+                formset.save()
+                return redirect('polls:index')
+        else:
+            formset = ChoiceFormSet(request.POST)
               
-            return redirect('polls:index')
     else:
         form = QuestionForm()
         formset = ChoiceFormSet()
